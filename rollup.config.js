@@ -19,7 +19,7 @@ export default [
       resolve({ browser: true, preferBuiltins: false }),
       typescript({
         cacheRoot: `${require("temp-dir")}/.rpt2_cache`,
-        tsconfig: "tsconfig.json"
+        tsconfig: "ts-rollup-config.json"
       }),
 
       commonjs(),

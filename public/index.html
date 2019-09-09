@@ -12,20 +12,22 @@
             justify-content: space-evenly;
           }
     
-          td,
           button,
           span,
+          footer,
           body {
             font-size: 18px;
             padding: 0px;
             color: black;
-            font-family: "Courier New";
-            text-align: center;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-weight: 200;
+            text-align: center;            
             text-shadow: 1px 1px 2px 2px gray;
           }
     
           .container {
             width: calc(100% - 10px);
+            position:absolute;
           }
     
           .row, .container{
@@ -69,6 +71,10 @@
             opacity: 0.5;
             border: solid 1px #333;
           }
+
+          .footer{
+            top:800;
+          }
         
         </style>
     
@@ -76,7 +82,11 @@
     <body>
       <div class="container">
         <canvas class="centered field" id="main"></canvas>        
-      </div>      
-      Control with WASD or arrow keys. P to pause. ESC to reset.
+      </div>
+      <div class="container nop">
+        <div class="centered ui" >
+          <div id="ui"/>
+        </div>
+      </div>
     </body>
 </html>
