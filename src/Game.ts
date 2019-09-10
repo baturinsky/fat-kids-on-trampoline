@@ -4,7 +4,7 @@ import * as v2 from "./v2";
 import jsfxr from "jsfxr";
 import FX from "./FX";
 
-let dirVecs: V2[] = [[0, -1], [-1, 0], [0, 1], [1, 0]];
+let directions: V2[] = [[0, -1], [-1, 0], [0, 1], [1, 0]];
 
 export default class Game {
   players: Kid[] = [];
@@ -16,7 +16,7 @@ export default class Game {
   lastLoopTimeStamp: number;
   time: number = 0;
   kidEta = 0;
-  score = [0,0,0]
+  score = []
 
   tramDeform: number;
   tramCenter: number;
@@ -27,7 +27,7 @@ export default class Game {
     return Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
   }
 
-  spawnPlayer(n: number) {
+  newPlayer(n: number) {
     if (this.players[n]) return;
     let kid = Kid.newKid(this);
     this.players[n] = kid;
@@ -66,16 +66,16 @@ export default class Game {
       this.kidEta = 400 / (30 + this.time);
     }
 
-    let dirVec: V2[] = [, [0, 0], [0, 0]];
+    let dirVec: V2[] = [, [0, 0], [0, 0], [0, 0], [0, 0]];
 
-    for (let i = 0; i < 8; i++) {
+    for (let i = 0; i < dirKeysPressed.length; i++) {
       if (dirKeysPressed[i]) {
         let player = Math.floor(i / 4) + 1;
-        v2.inc(dirVec[player], dirVecs[i % 4]);
-        if (!this.players[player]) this.spawnPlayer(player);        
+        v2.inc(dirVec[player], directions[i % 4]);
+        if (!this.players[player]) this.newPlayer(player);        
       }
     }
-    for (let p = 1; p <= 2; p++) {
+    for (let p = 1; p <= this.players.length; p++) {
       if (this.players[p]) this.players[p].dir = dirVec[p];
     }
 
@@ -103,10 +103,10 @@ export default class Game {
       if(b.at[1] > this.height + 20){
         if(b.isPlayer){
           delete this.players[b.player];
-          this.score[b.player] -= 5;
+          this.score[b.player] = (this.score[b.player] || 0) - 5;
         }
         if(b.lastHitBy){
-          this.score[b.lastHitBy] ++;
+          this.score[b.lastHitBy] = (this.score[b.lastHitBy]||0) + 1;
         }
         return false;
       }
@@ -147,13 +147,12 @@ export default class Game {
     ctx.font = `24pt Verdana`;
     ctx.textAlign = "center";
     ctx.fillStyle = "white";
-    ctx.textAlign = "left";
     if(this.kids.length>0)
       ctx.fillText(`Kids: ${this.kids.length}/15`, this.width/2, 30);
     
-    for(let i=1;i<=2;i++){
+    for(let i=1;i<=this.score.length;i++){
       if(this.score[i])
-        ctx.fillText(`P${i} ${this.score[i]} pts`, i==1?200:this.width-200, 30);
+        ctx.fillText(`P${i} ${this.score[i]} pts`, [0,200,this.width-200, 400, this.width-400][i], 30);
     }
 
 

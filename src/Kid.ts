@@ -283,8 +283,10 @@ export default class Kid {
 
     this.stun = Math.max(0, this.stun - dTime);
 
-    let acc = v2.mul(this.dir, [2000, 600], dTime);
-    v2.inc(this.vel, acc);
+    if(!this.stun){
+      let acc = v2.mul(this.dir, [2000, 600], dTime);
+      v2.inc(this.vel, acc);
+    }
 
     v2.inc(this.at, this.vel, dTime);
     v2.inc(this.vel, [0, 1000], dTime);
